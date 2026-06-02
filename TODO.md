@@ -10,12 +10,12 @@ This document lists what is **already in code** versus what you still need to **
 |------|--------|
 | Core app structure (Shell, MVVM, SQLite, CRUD) | Done in code |
 | Embedded `recipes.json` + API fallback chain | Done in code — **API URL & JSON on server need your setup** |
-| Recipe list images | **Remote URLs only** — no local recipe photos bundled |
+| Recipe list images | **Done** — 14 bundled JPGs in `Resources/Images/` |
 | Hardware (TTS, camera, GPS text) | Done in code — **test on real device / emulator** |
 | System light/dark theme | Done |
 | Interactive map | **Not implemented** (text coordinates only) |
 | Your own Mock API project | **Not done** — placeholder URL may 404 |
-| Local image files under `Resources/Images/` | **Folder empty** — see below |
+| Local image files under `Resources/Images/` | **Done** (14 recipes + `default_recipe.jpg`) |
 | 4-phase GitHub commit history | **Not done** (process, not code) |
 
 ---
@@ -24,45 +24,27 @@ This document lists what is **already in code** versus what you still need to **
 
 ### 1.1 How images work today
 
-All seed recipes use **`imageUrl` = HTTPS link** (Unsplash). The app binds `Image Source="{Binding ImageUrl}"` on list/detail pages.  
-**If the device has no internet**, list thumbnails may be **blank** even though titles load from SQLite/JSON.
+All **14** seed recipes in `recipes.json` use **local filenames** (e.g. `tomato_eggs.jpg`). List/detail pages bind through `RecipeImageSourceConverter`; unknown filenames fall back to `default_recipe.jpg`. **No network required** for thumbnails.
 
-Cooking photos from the camera use **local paths** under:
+Cooking photos from the camera are saved under:
 
 `FileSystem.AppDataDirectory/records/cook_{recipeId}_{timestamp}.jpg`
 
-Those are created at runtime; you do not add them to the repo.
+### 1.2 Bundled recipe images (complete)
 
-### 1.2 Remote URLs currently in the project (verify they still load)
+| `imageUrl` | Recipe |
+|------------|--------|
+| `tomato_eggs.jpg` … `honey_lemon_tea.jpg` | IDs 1–8 (original set) |
+| `chicken_caesar_salad.jpg` | Chicken Caesar Salad |
+| `mushroom_risotto.jpg` | Mushroom Risotto |
+| `beef_noodle_soup.jpg` | Beef Noodle Soup |
+| `mango_milk_tea.jpg` | Mango Milk Tea |
+| `yogurt_parfait.jpg` | Greek Yogurt Parfait |
+| `salmon_bowl.jpg` | Grilled Salmon Bowl |
 
-**Embedded `Resources/Raw/recipes.json`** — 8 recipes:
+Verify: `.\scripts\verify-demo.ps1` from repo root.
 
-| # | Recipe | `imageUrl` (remote) |
-|---|--------|---------------------|
-| 1 | Classic Tomato Eggs | `https://images.unsplash.com/photo-1608039829572-7854f8d7b2fd?w=400` |
-| 2 | Avocado Toast | `https://images.unsplash.com/photo-1525351484163-7529414344d8?w=400` |
-| 3 | Iced Matcha Latte | `https://images.unsplash.com/photo-1515823064-d6e0f004a4f2?w=400` |
-| 4 | Fresh Orange Juice | `https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=400` |
-| 5 | Berry Smoothie Bowl | `https://images.unsplash.com/photo-1590301157890-4810ed221531?w=400` |
-| 6 | Stir-Fried Greens | `https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400` |
-| 7 | Chocolate Lava Cake | `https://images.unsplash.com/photo-1624353365286-3f8d62daad51?w=400` |
-| 8 | Honey Lemon Tea | `https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400` |
-
-**Default when adding a recipe without image URL** (`RecipeEditViewModel.cs`):
-
-`https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400`
-
-**Hardcoded API fallback** (`MockRecipeApiService.GetHardcodedFallbackRecipes`) — 3 URLs (same Unsplash pattern).
-
-**Action for you:**
-
-- [ ] Open each URL in a browser; replace any broken link.
-- [ ] **Recommended for demo reliability:** download 8–10 food/drink photos (royalty-free), put under `FoodMoment/Resources/Images/`, e.g.  
-  `tomato_eggs.jpg`, `matcha_latte.jpg`, …  
-  Then change `recipes.json` to use MAUI local images, e.g.  
-  `"imageUrl": "tomato_eggs.jpg"`  
-  (MAUI resolves `MauiImage` assets by filename in bindings.)
-- [ ] Or keep URLs but **record demo with network on**.
+**After pulling new images:** restart the app (Home loads and merges JSON into SQLite) or use **Profile → Reload data**.
 
 ### 1.3 Bundled MAUI images (app branding)
 
@@ -71,12 +53,8 @@ Those are created at runtime; you do not add them to the repo.
 | `Resources/AppIcon/appicon.svg` | App icon | Present |
 | `Resources/AppIcon/appiconfg.svg` | Icon foreground | Present |
 | `Resources/Splash/splash.svg` | Splash screen | Present |
-| `Resources/Images/dotnet_bot.png` | Referenced in `.csproj` | **Missing** — folder `Resources/Images/` is empty |
-
-**Action:**
-
-- [ ] Remove the `MauiImage Update="Resources\Images\dotnet_bot.png"` line from `FoodMoment.csproj`, **or**
-- [ ] Add a real `dotnet_bot.png` (or replace with your own placeholder image).
+| `Resources/Images/*.jpg` | Recipe thumbnails | Present (14 + default) |
+| `Resources/Images/dotnet_bot.png` | Optional sample in `.csproj` | Present |
 
 ### 1.4 Optional local recipe image set (suggested filenames)
 

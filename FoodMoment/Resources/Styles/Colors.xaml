@@ -11,16 +11,16 @@
     <Color x:Key="SecondaryDarkText">#E85D04</Color>
     <Color x:Key="Tertiary">#6A994E</Color>
     <Color x:Key="Accent">#6A994E</Color>
-    <Color x:Key="PageBackgroundLight">#F8F9FA</Color>
-    <Color x:Key="PageBackgroundDark">#111827</Color>
-    <Color x:Key="CardLight">#FFFFFF</Color>
-    <Color x:Key="CardDark">#1F2937</Color>
+    <Color x:Key="PageBackgroundLight">#FFF9EF</Color>
+    <Color x:Key="PageBackgroundDark">#130F0C</Color>
+    <Color x:Key="CardLight">#FFFDF8</Color>
+    <Color x:Key="CardDark">#1A1712</Color>
     <Color x:Key="Danger">#DC2626</Color>
     <Color x:Key="DangerSurface">#FEE2E2</Color>
     <Color x:Key="Gray700">#374151</Color>
     <!-- Aliases used by default Styles.xaml (MAUI template names) -->
-    <Color x:Key="MidnightBlue">#1F2937</Color>
-    <Color x:Key="OffBlack">#111827</Color>
+    <Color x:Key="MidnightBlue">#3A2518</Color>
+    <Color x:Key="OffBlack">#130F0C</Color>
     <Color x:Key="Magenta">#E85D04</Color>
 
     <Color x:Key="White">White</Color>
@@ -31,7 +31,7 @@
     <Color x:Key="Gray400">#9CA3AF</Color>
     <Color x:Key="Gray500">#6B7280</Color>
     <Color x:Key="Gray600">#4B5563</Color>
-    <Color x:Key="Gray900">#111827</Color>
+    <Color x:Key="Gray900">#1A1712</Color>
     <Color x:Key="Gray950">#030712</Color>
 
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />

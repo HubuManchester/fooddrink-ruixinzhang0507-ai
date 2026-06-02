@@ -24,11 +24,15 @@
                            FontSize="12"
                            LineBreakMode="WordWrap"
                            TextColor="{StaticResource Gray500}" />
-                    <Label Text="Theme follows your system light/dark setting automatically."
-                           FontSize="12"
-                           TextColor="{StaticResource Gray500}" />
+                    <Label Text="Appearance"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=#FFF2DF}" />
+                    <Picker Title="Theme mode"
+                            ItemsSource="{Binding ThemeOptions}"
+                            SelectedIndex="{Binding SelectedThemeIndex}" />
                     <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" />
-                    <Button Text="Reload (JSON → API fallback)"
+                    <Button Text="Reload data"
                             Command="{Binding ReloadDataCommand}"
                             BackgroundColor="{StaticResource Primary}"
                             TextColor="White" />

@@ -21,6 +21,7 @@ public static class MauiProgram
         builder.Services.AddSingleton(new AppDatabase(dbPath));
         builder.Services.AddSingleton<EmbeddedRecipeDataService>();
         builder.Services.AddSingleton<LocalFallbackRecipeDataService>();
+        builder.Services.AddSingleton<ICameraPhotoService, CameraPhotoService>();
         builder.Services.AddSingleton<RecipeDataLoaderService>();
         builder.Services.AddSingleton<IRecipeRepository, RecipeRepository>();
 

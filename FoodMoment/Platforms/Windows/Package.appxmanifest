@@ -6,13 +6,13 @@
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   IgnorableNamespaces="uap rescap">
 
-  <Identity Name="com.ruixinzhang.foodmoment" Publisher="CN=Ruixin Zhang" Version="1.0.0.0" />
+  <Identity Name="maui-package-name-placeholder" Publisher="CN=User Name" Version="0.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="F2016055-DD70-4FC9-87D8-323825BA3151" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>FoodMoment</DisplayName>
-    <PublisherDisplayName>Ruixin Zhang</PublisherDisplayName>
+    <DisplayName>$placeholder$</DisplayName>
+    <PublisherDisplayName>User Name</PublisherDisplayName>
     <Logo>$placeholder$.png</Logo>
   </Properties>
 
@@ -28,8 +28,8 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="FoodMoment"
-        Description="Food and drink recipe companion"
+        DisplayName="$placeholder$"
+        Description="$placeholder$"
         Square150x150Logo="$placeholder$.png"
         Square44x44Logo="$placeholder$.png"
         BackgroundColor="transparent">
@@ -43,8 +43,7 @@
     <rescap:Capability Name="runFullTrust" />
     <DeviceCapability Name="webcam" />
     <DeviceCapability Name="microphone" />
-    <DeviceCapability Name="location" />
-    <uap:Capability Name="internetClient" />
+    <uap:Capability Name="picturesLibrary" />
   </Capabilities>
 
 </Package>

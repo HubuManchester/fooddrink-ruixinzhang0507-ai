@@ -16,10 +16,22 @@ public partial class ProfileViewModel : BaseViewModel
     [ObservableProperty]
     private string _dataSourceStatus = "Data source: not loaded yet.";
 
+    [ObservableProperty]
+    private int _selectedThemeIndex;
+
+    public IReadOnlyList<string> ThemeOptions { get; } = ThemePreferenceService.ThemeOptions;
+
     public ProfileViewModel()
     {
         _repository = ServiceHelper.GetService<IRecipeRepository>();
         Title = "Profile";
+        SelectedThemeIndex = ThemePreferenceService.GetSavedIndex();
+    }
+
+    partial void OnSelectedThemeIndexChanged(int value)
+    {
+        ThemePreferenceService.SaveIndex(value);
+        ThemePreferenceService.Apply(value);
     }
 
     [RelayCommand]

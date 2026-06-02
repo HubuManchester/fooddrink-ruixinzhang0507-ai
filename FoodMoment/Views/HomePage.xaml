@@ -95,22 +95,26 @@
                                            HeightRequest="116"
                                            WidthRequest="116" />
                                 </Border>
-                                <Label Grid.Column="1"
-                                       Text="{Binding Title}"
-                                       FontSize="17"
-                                       FontAttributes="Bold"
-                                       Margin="14,14,40,4"
-                                       LineBreakMode="TailTruncation"
-                                       TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
-                                <Label Grid.Column="1"
-                                       Grid.RowSpan="3"
-                                       Text="♥"
-                                       FontSize="14"
-                                       TextColor="{StaticResource Primary}"
-                                       HorizontalOptions="End"
-                                       VerticalOptions="Start"
-                                       Margin="0,14,14,0"
-                                       IsVisible="{Binding IsFavorite, Converter={StaticResource FavoriteHeartVisibilityConverter}}" />
+                                <Grid Grid.Column="1" ColumnDefinitions="*,Auto" Margin="14,10,10,0">
+                                    <Label Text="{Binding Title}"
+                                           FontSize="17"
+                                           FontAttributes="Bold"
+                                           LineBreakMode="TailTruncation"
+                                           VerticalOptions="Center"
+                                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                                    <Button Grid.Column="1"
+                                            Text="{Binding IsFavorite, Converter={StaticResource FavoriteHeartGlyphConverter}}"
+                                            FontSize="22"
+                                            Padding="8,0"
+                                            MinimumHeightRequest="40"
+                                            MinimumWidthRequest="40"
+                                            BackgroundColor="Transparent"
+                                            BorderWidth="0"
+                                            TextColor="{Binding IsFavorite, Converter={StaticResource FavoriteHeartColorConverter}}"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:HomeViewModel}}, Path=ToggleFavoriteCommand}"
+                                            CommandParameter="{Binding .}"
+                                            SemanticProperties.Hint="Toggle favorite" />
+                                </Grid>
                                 <Label Grid.Column="1"
                                        Grid.Row="1"
                                        Text="{Binding Description}"

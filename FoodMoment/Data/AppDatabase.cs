@@ -15,6 +15,22 @@ public class AppDatabase
     {
         await _connection.CreateTableAsync<RecipeEntity>();
         await _connection.CreateTableAsync<CookRecordEntity>();
+        await EnsureRecipeNutritionColumnsAsync();
+    }
+
+    private async Task EnsureRecipeNutritionColumnsAsync()
+    {
+        var columns = await _connection.GetTableInfoAsync("recipes");
+        var names = columns.Select(c => c.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        if (!names.Contains("Calories"))
+            await _connection.ExecuteAsync("ALTER TABLE recipes ADD COLUMN Calories INTEGER NOT NULL DEFAULT 0");
+        if (!names.Contains("Protein"))
+            await _connection.ExecuteAsync("ALTER TABLE recipes ADD COLUMN Protein INTEGER NOT NULL DEFAULT 0");
+        if (!names.Contains("Carbs"))
+            await _connection.ExecuteAsync("ALTER TABLE recipes ADD COLUMN Carbs INTEGER NOT NULL DEFAULT 0");
+        if (!names.Contains("Fat"))
+            await _connection.ExecuteAsync("ALTER TABLE recipes ADD COLUMN Fat INTEGER NOT NULL DEFAULT 0");
     }
 
     public async Task<int> GetRecipeCountAsync() =>

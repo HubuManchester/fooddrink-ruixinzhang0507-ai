@@ -53,6 +53,31 @@ public partial class HomeViewModel : BaseViewModel
     }
 
     [RelayCommand]
+    private async Task ToggleFavoriteAsync(Recipe recipe)
+    {
+        if (recipe is null)
+            return;
+
+        await _repository.ToggleFavoriteAsync(recipe.Id);
+
+        var index = Recipes.IndexOf(recipe);
+        if (index >= 0)
+        {
+            var updated = await _repository.GetByIdAsync(recipe.Id);
+            if (updated is not null)
+                Recipes[index] = updated;
+        }
+
+        try
+        {
+            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+        }
+        catch
+        {
+        }
+    }
+
+    [RelayCommand]
     private async Task RecipeSelectedAsync(Recipe recipe)
     {
         if (recipe is null)

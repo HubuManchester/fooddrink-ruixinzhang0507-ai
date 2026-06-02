@@ -39,10 +39,7 @@ public class RecipeRepository : IRecipeRepository
     public async Task InitializeAsync()
     {
         await _database.InitializeAsync();
-
-        var count = await _database.GetRecipeCountAsync();
-        if (count == 0)
-            await RefreshWithFallbackAsync();
+        await RefreshWithFallbackAsync();
     }
 
     public async Task<DataLoadResult> RefreshWithFallbackAsync()
@@ -64,12 +61,18 @@ public class RecipeRepository : IRecipeRepository
                 var existing = await _database.GetRecipeAsync(recipe.Id);
                 if (existing is not null)
                 {
+                    var wasFavorite = existing.IsFavorite;
                     existing.Title = recipe.Title;
                     existing.Description = recipe.Description;
                     existing.ImageUrl = recipe.ImageUrl;
                     existing.Category = recipe.Category;
                     existing.IngredientsJson = JsonSerializer.Serialize(recipe.Ingredients);
                     existing.StepsJson = JsonSerializer.Serialize(recipe.Steps);
+                    existing.Calories = recipe.Calories;
+                    existing.Protein = recipe.Protein;
+                    existing.Carbs = recipe.Carbs;
+                    existing.Fat = recipe.Fat;
+                    existing.IsFavorite = wasFavorite;
                     await _database.UpdateRecipeAsync(existing);
                     continue;
                 }
@@ -149,6 +152,10 @@ public class RecipeRepository : IRecipeRepository
         existing.Category = recipe.Category;
         existing.IngredientsJson = JsonSerializer.Serialize(recipe.Ingredients);
         existing.StepsJson = JsonSerializer.Serialize(recipe.Steps);
+        existing.Calories = recipe.Calories;
+        existing.Protein = recipe.Protein;
+        existing.Carbs = recipe.Carbs;
+        existing.Fat = recipe.Fat;
         existing.IsFavorite = recipe.IsFavorite;
 
         await _database.UpdateRecipeAsync(existing);
@@ -198,7 +205,11 @@ public class RecipeRepository : IRecipeRepository
         Category = entity.Category,
         Ingredients = JsonSerializer.Deserialize<List<string>>(entity.IngredientsJson) ?? [],
         Steps = JsonSerializer.Deserialize<List<string>>(entity.StepsJson) ?? [],
-        IsFavorite = entity.IsFavorite
+        IsFavorite = entity.IsFavorite,
+        Calories = entity.Calories,
+        Protein = entity.Protein,
+        Carbs = entity.Carbs,
+        Fat = entity.Fat
     };
 
     private static RecipeEntity ToEntity(Recipe recipe) => new()
@@ -210,6 +221,10 @@ public class RecipeRepository : IRecipeRepository
         Category = recipe.Category,
         IngredientsJson = JsonSerializer.Serialize(recipe.Ingredients),
         StepsJson = JsonSerializer.Serialize(recipe.Steps),
-        IsFavorite = recipe.IsFavorite
+        IsFavorite = recipe.IsFavorite,
+        Calories = recipe.Calories,
+        Protein = recipe.Protein,
+        Carbs = recipe.Carbs,
+        Fat = recipe.Fat
     };
 }

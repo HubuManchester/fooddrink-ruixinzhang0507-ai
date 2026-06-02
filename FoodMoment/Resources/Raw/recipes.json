@@ -12,6 +12,10 @@
         "Scramble eggs in oil, then remove.",
         "Stir-fry tomatoes, return eggs, season and serve."
       ],
+      "calories": 280,
+      "protein": 16,
+      "carbs": 12,
+      "fat": 18,
       "isFavorite": false
     },
     {
@@ -26,6 +30,10 @@
         "Mash avocado with lemon and pepper.",
         "Spread on toast and serve."
       ],
+      "calories": 320,
+      "protein": 10,
+      "carbs": 28,
+      "fat": 20,
       "isFavorite": false
     },
     {
@@ -40,6 +48,10 @@
         "Fill a glass with ice and pour in milk.",
         "Add matcha and honey, stir gently and serve."
       ],
+      "calories": 180,
+      "protein": 6,
+      "carbs": 22,
+      "fat": 7,
       "isFavorite": false
     },
     {
@@ -54,6 +66,10 @@
         "Cut in half and juice by hand or machine.",
         "Serve immediately over ice if desired."
       ],
+      "calories": 110,
+      "protein": 2,
+      "carbs": 26,
+      "fat": 0,
       "isFavorite": false
     },
     {
@@ -68,6 +84,10 @@
         "Pour into a bowl.",
         "Top with granola and a drizzle of honey."
       ],
+      "calories": 340,
+      "protein": 12,
+      "carbs": 58,
+      "fat": 8,
       "isFavorite": false
     },
     {
@@ -82,6 +102,10 @@
         "Sauté garlic in oil.",
         "Stir-fry vegetables 3 minutes, season and serve."
       ],
+      "calories": 120,
+      "protein": 4,
+      "carbs": 14,
+      "fat": 6,
       "isFavorite": false
     },
     {
@@ -96,6 +120,10 @@
         "Whisk eggs and sugar, fold in chocolate mix and flour.",
         "Bake at 200°C for 12 minutes until edges set."
       ],
+      "calories": 450,
+      "protein": 8,
+      "carbs": 42,
+      "fat": 28,
       "isFavorite": false
     },
     {
@@ -110,6 +138,118 @@
         "Pour hot water and stir in honey.",
         "Steep 2 minutes before drinking."
       ],
+      "calories": 60,
+      "protein": 0,
+      "carbs": 17,
+      "fat": 0,
+      "isFavorite": false
+    },
+    {
+      "id": 9,
+      "title": "Chicken Caesar Salad",
+      "description": "Crisp romaine with grilled chicken, parmesan, and light dressing.",
+      "imageUrl": "chicken_caesar_salad.jpg",
+      "category": "Lunch",
+      "ingredients": ["150g chicken breast", "Romaine lettuce", "Parmesan", "Caesar dressing", "Croutons"],
+      "steps": [
+        "Season and grill chicken until cooked through, then slice.",
+        "Toss lettuce with dressing and croutons.",
+        "Top with chicken and shaved parmesan."
+      ],
+      "calories": 420,
+      "protein": 32,
+      "carbs": 18,
+      "fat": 24,
+      "isFavorite": false
+    },
+    {
+      "id": 10,
+      "title": "Mushroom Risotto",
+      "description": "Creamy arborio rice with sautéed mushrooms and herbs.",
+      "imageUrl": "mushroom_risotto.jpg",
+      "category": "Vegetarian",
+      "ingredients": ["180g arborio rice", "200g mushrooms", "Vegetable stock", "Parmesan", "Butter", "Garlic"],
+      "steps": [
+        "Sauté mushrooms and garlic in butter.",
+        "Toast rice, then add warm stock one ladle at a time.",
+        "Stir until creamy, finish with parmesan and serve."
+      ],
+      "calories": 380,
+      "protein": 10,
+      "carbs": 52,
+      "fat": 14,
+      "isFavorite": false
+    },
+    {
+      "id": 11,
+      "title": "Beef Noodle Soup",
+      "description": "Slow-simmered broth with tender beef and wheat noodles.",
+      "imageUrl": "beef_noodle_soup.jpg",
+      "category": "Chinese",
+      "ingredients": ["200g beef slices", "Fresh noodles", "Bok choy", "Scallions", "Soy sauce", "Star anise"],
+      "steps": [
+        "Simmer beef with aromatics for 40 minutes.",
+        "Cook noodles separately until tender.",
+        "Assemble bowl with noodles, beef, greens, and hot broth."
+      ],
+      "calories": 520,
+      "protein": 28,
+      "carbs": 58,
+      "fat": 16,
+      "isFavorite": false
+    },
+    {
+      "id": 12,
+      "title": "Mango Milk Tea",
+      "description": "Sweet tropical bubble-free milk tea with fresh mango.",
+      "imageUrl": "mango_milk_tea.jpg",
+      "category": "Drinks",
+      "ingredients": ["1 ripe mango", "150 ml milk", "Black tea", "Ice", "1 tbsp honey"],
+      "steps": [
+        "Blend mango with honey until smooth.",
+        "Brew tea and cool, then mix with milk.",
+        "Pour mango puree into a glass, add tea-milk and ice."
+      ],
+      "calories": 290,
+      "protein": 4,
+      "carbs": 48,
+      "fat": 9,
+      "isFavorite": false
+    },
+    {
+      "id": 13,
+      "title": "Greek Yogurt Parfait",
+      "description": "Layered breakfast with yogurt, berries, and crunchy granola.",
+      "imageUrl": "yogurt_parfait.jpg",
+      "category": "Breakfast",
+      "ingredients": ["1 cup Greek yogurt", "Mixed berries", "Granola", "Honey", "Mint"],
+      "steps": [
+        "Spoon yogurt into a glass.",
+        "Add berries and granola in layers.",
+        "Drizzle honey and garnish with mint."
+      ],
+      "calories": 310,
+      "protein": 18,
+      "carbs": 42,
+      "fat": 8,
+      "isFavorite": false
+    },
+    {
+      "id": 14,
+      "title": "Grilled Salmon Bowl",
+      "description": "Protein-rich bowl with rice, salmon, avocado, and greens.",
+      "imageUrl": "salmon_bowl.jpg",
+      "category": "Lunch",
+      "ingredients": ["180g salmon fillet", "1 cup rice", "Avocado", "Cucumber", "Soy-lime dressing"],
+      "steps": [
+        "Grill or pan-sear salmon until flaky.",
+        "Pack rice into a bowl and arrange vegetables.",
+        "Place salmon on top and drizzle with dressing."
+      ],
+      "calories": 540,
+      "protein": 35,
+      "carbs": 45,
+      "fat": 22,
       "isFavorite": false
     }
   ]

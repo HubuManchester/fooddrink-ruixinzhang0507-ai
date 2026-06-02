@@ -15,4 +15,8 @@ public class RecipeEntity
     public string IngredientsJson { get; set; } = "[]";
     public string StepsJson { get; set; } = "[]";
     public bool IsFavorite { get; set; }
+    public int Calories { get; set; }
+    public int Protein { get; set; }
+    public int Carbs { get; set; }
+    public int Fat { get; set; }
 }

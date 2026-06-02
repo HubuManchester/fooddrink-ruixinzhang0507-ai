@@ -7,15 +7,90 @@
              Title="{Binding Title}"
              BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
 
-    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto">
 
-        <Border Grid.Row="0" StrokeThickness="0">
+        <Grid Grid.Row="0">
             <Image Source="{Binding Recipe.ImageUrl, Converter={StaticResource RecipeImageSourceConverter}}"
                    Aspect="AspectFill"
                    HeightRequest="220" />
-        </Border>
+            <Button Text="{Binding IsFavorite, Converter={StaticResource FavoriteHeartGlyphConverter}}"
+                    FontSize="28"
+                    HorizontalOptions="End"
+                    VerticalOptions="Start"
+                    Margin="16,16,16,0"
+                    Padding="12,8"
+                    CornerRadius="24"
+                    BackgroundColor="#CCFFFFFF"
+                    TextColor="{Binding IsFavorite, Converter={StaticResource FavoriteHeartColorConverter}}"
+                    Command="{Binding ToggleFavoriteCommand}"
+                    SemanticProperties.Hint="Toggle favorite" />
+        </Grid>
 
         <Border Grid.Row="1"
+                Margin="20,12,20,0"
+                Padding="16"
+                StrokeShape="RoundRectangle 14"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                Stroke="{StaticResource Gray200}">
+            <VerticalStackLayout Spacing="10">
+                <Label Text="{Binding Recipe.Description}"
+                       FontSize="15"
+                       LineBreakMode="WordWrap"
+                       TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=#FFF2DF}" />
+                <Label Text="Nutrition (per serving)"
+                       FontSize="13"
+                       FontAttributes="Bold"
+                       TextColor="{StaticResource Primary}" />
+                <Grid ColumnDefinitions="*,*,*,*" ColumnSpacing="8">
+                    <VerticalStackLayout Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{Binding Recipe.Calories, StringFormat='{0}'}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        <Label Text="kcal"
+                               FontSize="11"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Gray500}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="1" Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{Binding Recipe.Protein, StringFormat='{0}g'}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        <Label Text="protein"
+                               FontSize="11"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Gray500}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="2" Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{Binding Recipe.Carbs, StringFormat='{0}g'}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        <Label Text="carbs"
+                               FontSize="11"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Gray500}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Grid.Column="3" Spacing="2" HorizontalOptions="Center">
+                        <Label Text="{Binding Recipe.Fat, StringFormat='{0}g'}"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        <Label Text="fat"
+                               FontSize="11"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Gray500}" />
+                    </VerticalStackLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+
+        <Border Grid.Row="2"
                 Margin="20,12,20,0"
                 Padding="12"
                 IsVisible="{Binding HasCapturedPhoto}"
@@ -32,7 +107,7 @@
             </VerticalStackLayout>
         </Border>
 
-        <Grid Grid.Row="2"
+        <Grid Grid.Row="3"
               ColumnDefinitions="*,*"
               Margin="20,12,20,0"
               ColumnSpacing="10">
@@ -49,7 +124,7 @@
                     TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
         </Grid>
 
-        <ScrollView Grid.Row="3" Margin="20,12,20,8">
+        <ScrollView Grid.Row="4" Margin="20,12,20,8">
             <VerticalStackLayout Spacing="12">
                 <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" />
                 <CollectionView ItemsSource="{Binding Recipe.Ingredients}"
@@ -94,7 +169,7 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <Border Grid.Row="4"
+        <Border Grid.Row="5"
                 Padding="16,12"
                 StrokeThickness="0"
                 BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}">
@@ -116,6 +191,7 @@
                     <Button Grid.Column="2"
                             Text="Capture"
                             Command="{Binding CapturePhotoCommand}"
+                            IsEnabled="{Binding IsCapturing, Converter={StaticResource InvertedBoolConverter}}"
                             BackgroundColor="{StaticResource Accent}"
                             TextColor="White"
                             FontSize="12" />

@@ -10,4 +10,8 @@ public class Recipe
     public List<string> Ingredients { get; set; } = [];
     public List<string> Steps { get; set; } = [];
     public bool IsFavorite { get; set; }
+    public int Calories { get; set; }
+    public int Protein { get; set; }
+    public int Carbs { get; set; }
+    public int Fat { get; set; }
 }

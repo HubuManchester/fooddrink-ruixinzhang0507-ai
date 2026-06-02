@@ -9,7 +9,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<ApplicationTitle>FoodMoment</ApplicationTitle>
-		<ApplicationId>com.ruixinzhang.foodmoment</ApplicationId>
+		<ApplicationId>com.companyname.foodmoment</ApplicationId>
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 		<WindowsPackageType>None</WindowsPackageType>

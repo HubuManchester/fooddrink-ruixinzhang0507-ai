@@ -17,6 +17,8 @@
             <converters:FavoriteBackgroundConverter x:Key="FavoriteBackgroundConverter" />
             <converters:FavoriteTextColorConverter x:Key="FavoriteTextColorConverter" />
             <converters:FavoriteHeartVisibilityConverter x:Key="FavoriteHeartVisibilityConverter" />
+            <converters:FavoriteHeartGlyphConverter x:Key="FavoriteHeartGlyphConverter" />
+            <converters:FavoriteHeartColorConverter x:Key="FavoriteHeartColorConverter" />
             <converters:RecipeImageSourceConverter x:Key="RecipeImageSourceConverter" />
         </ResourceDictionary>
     </Application.Resources>

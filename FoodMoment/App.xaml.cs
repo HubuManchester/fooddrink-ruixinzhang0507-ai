@@ -1,25 +1,13 @@
-﻿using FoodMoment.Services;
-
-namespace FoodMoment;
+﻿namespace FoodMoment;
 
 public partial class App : Application
 {
-    private readonly IRecipeRepository _recipeRepository;
-
-    public App(IRecipeRepository recipeRepository)
+    public App()
     {
         InitializeComponent();
-
-        // Follow system light/dark mode (required).
-        UserAppTheme = AppTheme.Unspecified;
-
-        _recipeRepository = recipeRepository;
+        ThemePreferenceService.Apply(ThemePreferenceService.GetSavedIndex());
     }
 
-    protected override Window CreateWindow(IActivationState? activationState)
-    {
-        // Seed SQLite before Shell creates HomePage (avoids empty list on Android).
-        _recipeRepository.InitializeAsync().GetAwaiter().GetResult();
-        return new Window(new AppShell());
-    }
+    protected override Window CreateWindow(IActivationState? activationState) =>
+        new(new AppShell());
 }

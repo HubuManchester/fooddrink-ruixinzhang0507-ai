@@ -8,6 +8,7 @@ namespace FoodMoment.ViewModels;
 public partial class RecipeDetailViewModel : BaseViewModel
 {
     private readonly IRecipeRepository _repository;
+    private readonly ICameraPhotoService _cameraPhotoService;
     private CancellationTokenSource? _speechCts;
 
     [ObservableProperty]
@@ -29,6 +30,9 @@ public partial class RecipeDetailViewModel : BaseViewModel
     private bool _isSpeaking;
 
     [ObservableProperty]
+    private bool _isCapturing;
+
+    [ObservableProperty]
     private string? _lastCapturedPhotoPath;
 
     [ObservableProperty]
@@ -39,6 +43,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
     public RecipeDetailViewModel()
     {
         _repository = ServiceHelper.GetService<IRecipeRepository>();
+        _cameraPhotoService = ServiceHelper.GetService<ICameraPhotoService>();
         Title = "Recipe";
     }
 
@@ -48,14 +53,21 @@ public partial class RecipeDetailViewModel : BaseViewModel
             return;
 
         IsBusy = true;
-        Recipe = await _repository.GetByIdAsync(RecipeId);
-        if (Recipe is not null)
+        try
         {
-            Title = Recipe.Title;
-            IsFavorite = Recipe.IsFavorite;
-            UpdateCurrentStepText();
+            Recipe = await _repository.GetByIdAsync(RecipeId);
+            if (Recipe is not null)
+            {
+                Title = Recipe.Title;
+                IsFavorite = Recipe.IsFavorite;
+                UpdateCurrentStepText();
+            }
         }
-        IsBusy = false;
+        finally
+        {
+            IsBusy = false;
+            CapturePhotoCommand.NotifyCanExecuteChanged();
+        }
     }
 
     [RelayCommand]
@@ -103,46 +115,45 @@ public partial class RecipeDetailViewModel : BaseViewModel
         IsSpeaking = false;
     }
 
-    [RelayCommand]
+    [RelayCommand(CanExecute = nameof(CanCapturePhoto))]
     private async Task CapturePhotoAsync()
     {
-        if (Recipe is null)
+        if (Recipe is null || IsCapturing)
             return;
 
-        var status = await Permissions.RequestAsync<Permissions.Camera>();
-        if (status != PermissionStatus.Granted)
-            return;
-
-        var photo = await MediaPicker.Default.CapturePhotoAsync(new MediaPickerOptions
-        {
-            Title = "Capture your dish"
-        });
-
-        if (photo is null)
-            return;
-
-        var recordsDir = Path.Combine(FileSystem.AppDataDirectory, "records");
-        Directory.CreateDirectory(recordsDir);
-        var fileName = $"cook_{Recipe.Id}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
-        var localPath = Path.Combine(recordsDir, fileName);
-
-        await using var source = await photo.OpenReadAsync();
-        await using var dest = File.OpenWrite(localPath);
-        await source.CopyToAsync(dest);
-
-        LastCapturedPhotoPath = localPath;
-        HasCapturedPhoto = true;
-
-        await _repository.AddCookRecordAsync(Recipe.Id, Recipe.Title, localPath);
+        IsCapturing = true;
+        CapturePhotoCommand.NotifyCanExecuteChanged();
 
         try
         {
-            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+            var fileName = $"cook_{Recipe.Id}_{DateTime.Now:yyyyMMdd_HHmmss}.jpg";
+            var result = await _cameraPhotoService.CaptureDishPhotoAsync(fileName);
+
+            switch (result.Status)
+            {
+                case CameraCaptureStatus.Success when result.SavedPath is not null:
+                    LastCapturedPhotoPath = result.SavedPath;
+                    HasCapturedPhoto = true;
+                    await _repository.AddCookRecordAsync(Recipe.Id, Recipe.Title, result.SavedPath);
+                    TryHapticFeedback();
+                    break;
+
+                case CameraCaptureStatus.Cancelled:
+                    break;
+
+                default:
+                    await ShowAlertAsync("Capture photo", result.Message ?? "Unable to capture a photo.");
+                    break;
+            }
         }
-        catch
+        finally
         {
+            IsCapturing = false;
+            CapturePhotoCommand.NotifyCanExecuteChanged();
         }
     }
+
+    private bool CanCapturePhoto() => !IsCapturing && !IsBusy;
 
     [RelayCommand]
     private async Task ToggleFavoriteAsync()
@@ -153,14 +164,7 @@ public partial class RecipeDetailViewModel : BaseViewModel
         await _repository.ToggleFavoriteAsync(Recipe.Id);
         Recipe.IsFavorite = !Recipe.IsFavorite;
         IsFavorite = Recipe.IsFavorite;
-
-        try
-        {
-            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
-        }
-        catch
-        {
-        }
+        TryHapticFeedback();
     }
 
     [RelayCommand]
@@ -200,5 +204,23 @@ public partial class RecipeDetailViewModel : BaseViewModel
         var index = Math.Clamp(CurrentStepIndex, 0, Recipe.Steps.Count - 1);
         CurrentStepIndex = index;
         CurrentStepText = Recipe.Steps[index];
+    }
+
+    private static void TryHapticFeedback()
+    {
+        try
+        {
+            HapticFeedback.Default.Perform(HapticFeedbackType.Click);
+        }
+        catch
+        {
+        }
+    }
+
+    private static async Task ShowAlertAsync(string title, string message)
+    {
+        var page = Shell.Current?.CurrentPage;
+        if (page is not null)
+            await page.DisplayAlert(title, message, "OK");
     }
 }

@@ -104,6 +104,54 @@ Cooking photos are stored under `FileSystem.AppDataDirectory/records/`.
 - iOS target
 - Automated unit/UI tests
 
+## Architecture
+
+```mermaid
+flowchart LR
+  Views --> ViewModels
+  ViewModels --> IRecipeRepository
+  ViewModels --> ICameraPhotoService
+  IRecipeRepository --> RecipeRepository
+  RecipeRepository --> AppDatabase
+  RecipeRepository --> RecipeDataLoaderService
+  RecipeDataLoaderService --> EmbeddedJSON[recipes.json]
+  RecipeDataLoaderService --> FallbackJSON[recipes_fallback.json]
+  RecipeDataLoaderService --> StaticCatalog[StaticRecipeCatalog]
+```
+
+- **Views / ViewModels:** UI and commands only; no direct database access from XAML code-behind.
+- **Services:** Camera capture, theme preference, and JSON loading stay in dedicated classes for testability and reuse.
+- **Data:** `AppDatabase` (SQLite) stores recipes, favorites, and cook records with photos.
+
+## Prerequisites
+
+| Platform | Requirements |
+|----------|----------------|
+| Windows | .NET 9 SDK, MAUI workload, optional webcam for Capture |
+| Android | .NET 9 SDK, MAUI workload, Android SDK / emulator or device |
+
+Enable **camera**, **location**, and **microphone** (if prompted) in OS privacy settings before recording the demo video.
+
+## Troubleshooting
+
+| Issue | What to try |
+|-------|-------------|
+| App does not start in VS | Set startup to **Windows Machine**; stop a stuck `FoodMoment` process and rebuild |
+| Blank recipe images | **Profile → Reload data**; confirm JPG files exist under `Resources/Images/` |
+| Only 8 recipes shown | Reload or restart app (merges 14 recipes from JSON into SQLite) |
+| Camera fails on Windows | Allow webcam in Settings → Privacy; retry Capture (falls back to system camera UI or photo picker) |
+| TTS silent | Windows: install a speech voice under Settings → Time & language → Speech |
+| GPS shows dashes | Grant location permission; turn on location services |
+| `git push` 403 | Sign in to GitHub as the account that owns the classroom repo |
+
+## Related documentation
+
+| File | Purpose |
+|------|---------|
+| `docs/DEMO_VERIFICATION.md` | Manual checklist for TTS, camera, GPS |
+| `scripts/verify-demo.ps1` | Automated image + build check |
+| `TODO.md` | Remaining optional tasks and asset notes |
+
 ## License
 
 Academic coursework submission — University of Manchester (HubuManchester classroom repository).

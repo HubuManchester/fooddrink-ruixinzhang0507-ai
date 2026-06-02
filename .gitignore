@@ -13,6 +13,10 @@ obj/
 *.keystore
 *.pdb
 FoodDrinkApp_GitHub_Upload.zip
+FoodMoment_GitHub_Upload.zip
+agent-run-stderr.txt
+agent-run-stdout.txt
+_git_push/
 
 # User-specific files
 *.user
@@ -24,4 +28,4 @@ Thumbs.db
 Desktop.ini
 
 # Local build redirection output is configured outside the repo:
-# C:\MauiBuild\FoodDrinkApp
+# C:\MauiBuild\FoodMoment

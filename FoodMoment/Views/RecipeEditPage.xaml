@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodMoment.ViewModels"
+             x:Class="FoodMoment.Views.RecipeEditPage"
+             x:DataType="vm:RecipeEditViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <ScrollView Padding="20,16">
+        <VerticalStackLayout Spacing="16">
+
+            <Label Text="Basic info"
+                   FontSize="18"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 14"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{StaticResource Gray200}">
+                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Title *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                        <Entry Text="{Binding TitleText}" Placeholder="e.g. Tomato scrambled eggs" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Description *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                        <Editor Text="{Binding Description}"
+                                Placeholder="Short introduction"
+                                AutoSize="TextChanges"
+                                MinimumHeightRequest="80" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Category *" FontSize="13" TextColor="{StaticResource Gray500}" />
+                        <Picker Title="Select category"
+                                ItemsSource="{Binding Categories}"
+                                SelectedItem="{Binding SelectedCategory}" />
+                    </VerticalStackLayout>
+                    <VerticalStackLayout Spacing="4">
+                        <Label Text="Image file name (optional)" FontSize="13" TextColor="{StaticResource Gray500}" />
+                        <Entry Text="{Binding ImageUrl}" Placeholder="e.g. tomato_eggs.jpg or https://..." />
+                    </VerticalStackLayout>
+                </VerticalStackLayout>
+            </Border>
+
+            <Label Text="Ingredients (one per line)"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 14"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{StaticResource Gray200}">
+                <Editor Text="{Binding IngredientsText}"
+                        Placeholder="3 eggs&#10;2 tomatoes"
+                        AutoSize="TextChanges"
+                        MinimumHeightRequest="100" />
+            </Border>
+
+            <Label Text="Steps (one per line) *"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 14"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{StaticResource Gray200}">
+                <Editor Text="{Binding StepsText}"
+                        Placeholder="Step 1...&#10;Step 2..."
+                        AutoSize="TextChanges"
+                        MinimumHeightRequest="120" />
+            </Border>
+
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,8,0,24">
+                <Button Text="Cancel"
+                        Command="{Binding CancelCommand}"
+                        BackgroundColor="{StaticResource Gray200}"
+                        TextColor="{StaticResource PrimaryDarkText}" />
+                <Button Grid.Column="1"
+                        Text="Save"
+                        Command="{Binding SaveCommand}"
+                        BackgroundColor="{StaticResource Primary}"
+                        TextColor="White" />
+            </Grid>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

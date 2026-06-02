@@ -1,0 +1,116 @@
+{
+  "recipes": [
+    {
+      "id": 1,
+      "title": "Classic Tomato Eggs",
+      "description": "A quick home-style dish with sweet and tangy flavor.",
+      "imageUrl": "tomato_eggs.jpg",
+      "category": "Chinese",
+      "ingredients": ["3 eggs", "2 tomatoes", "Salt", "1 tsp sugar", "Scallions"],
+      "steps": [
+        "Cut tomatoes and beat eggs with salt.",
+        "Scramble eggs in oil, then remove.",
+        "Stir-fry tomatoes, return eggs, season and serve."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 2,
+      "title": "Avocado Toast",
+      "description": "A nutritious breakfast ready in five minutes.",
+      "imageUrl": "avocado_toast.jpg",
+      "category": "Breakfast",
+      "ingredients": ["2 slices bread", "1 avocado", "Lemon juice", "Black pepper"],
+      "steps": [
+        "Toast bread until golden.",
+        "Mash avocado with lemon and pepper.",
+        "Spread on toast and serve."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 3,
+      "title": "Iced Matcha Latte",
+      "description": "Creamy cold green tea drink for a refreshing break.",
+      "imageUrl": "matcha_latte.jpg",
+      "category": "Drinks",
+      "ingredients": ["2 tsp matcha powder", "120 ml milk", "Ice cubes", "1 tsp honey"],
+      "steps": [
+        "Whisk matcha with 2 tbsp warm water until smooth.",
+        "Fill a glass with ice and pour in milk.",
+        "Add matcha and honey, stir gently and serve."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 4,
+      "title": "Fresh Orange Juice",
+      "description": "Simple pressed citrus drink with no added sugar.",
+      "imageUrl": "orange_juice.jpg",
+      "category": "Drinks",
+      "ingredients": ["4 oranges", "Ice (optional)"],
+      "steps": [
+        "Roll oranges on the counter to loosen juice.",
+        "Cut in half and juice by hand or machine.",
+        "Serve immediately over ice if desired."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 5,
+      "title": "Berry Smoothie Bowl",
+      "description": "Thick blended drink topped with fruit and granola.",
+      "imageUrl": "smoothie_bowl.jpg",
+      "category": "Drinks",
+      "ingredients": ["1 banana", "1 cup mixed berries", "1/2 cup yogurt", "Granola", "Honey"],
+      "steps": [
+        "Blend banana, berries and yogurt until thick.",
+        "Pour into a bowl.",
+        "Top with granola and a drizzle of honey."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 6,
+      "title": "Stir-Fried Greens",
+      "description": "Light vegetarian side that keeps vegetables crisp.",
+      "imageUrl": "stir_fry_greens.jpg",
+      "category": "Vegetarian",
+      "ingredients": ["200g broccoli", "1 carrot", "Garlic", "Olive oil", "Salt"],
+      "steps": [
+        "Wash and cut vegetables.",
+        "Sauté garlic in oil.",
+        "Stir-fry vegetables 3 minutes, season and serve."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 7,
+      "title": "Chocolate Lava Cake",
+      "description": "Warm dessert with a molten chocolate center.",
+      "imageUrl": "lava_cake.jpg",
+      "category": "Dessert",
+      "ingredients": ["100g dark chocolate", "80g butter", "2 eggs", "40g sugar", "30g flour"],
+      "steps": [
+        "Melt chocolate and butter together.",
+        "Whisk eggs and sugar, fold in chocolate mix and flour.",
+        "Bake at 200°C for 12 minutes until edges set."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 8,
+      "title": "Honey Lemon Tea",
+      "description": "Soothing hot drink for cold evenings.",
+      "imageUrl": "honey_lemon_tea.jpg",
+      "category": "Drinks",
+      "ingredients": ["1 lemon", "2 tsp honey", "250 ml hot water"],
+      "steps": [
+        "Slice lemon and add to a mug.",
+        "Pour hot water and stir in honey.",
+        "Steep 2 minutes before drinking."
+      ],
+      "isFavorite": false
+    }
+  ]
+}

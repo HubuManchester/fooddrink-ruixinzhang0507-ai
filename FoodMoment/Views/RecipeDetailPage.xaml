@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodMoment.ViewModels"
+             x:Class="FoodMoment.Views.RecipeDetailPage"
+             x:DataType="vm:RecipeDetailViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*,Auto">
+
+        <Border Grid.Row="0" StrokeThickness="0">
+            <Image Source="{Binding Recipe.ImageUrl, Converter={StaticResource RecipeImageSourceConverter}}"
+                   Aspect="AspectFill"
+                   HeightRequest="220" />
+        </Border>
+
+        <Border Grid.Row="1"
+                Margin="20,12,20,0"
+                Padding="12"
+                IsVisible="{Binding HasCapturedPhoto}"
+                StrokeShape="RoundRectangle 12"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                Stroke="{StaticResource Gray200}">
+            <VerticalStackLayout Spacing="8">
+                <Label Text="Your dish photo"
+                       FontAttributes="Bold"
+                       TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                <Image Source="{Binding LastCapturedPhotoPath, Converter={StaticResource RecipeImageSourceConverter}}"
+                       Aspect="AspectFill"
+                       HeightRequest="160" />
+            </VerticalStackLayout>
+        </Border>
+
+        <Grid Grid.Row="2"
+              ColumnDefinitions="*,*"
+              Margin="20,12,20,0"
+              ColumnSpacing="10">
+            <Button Text="Ingredients"
+                    Command="{Binding ShowIngredientsTabCommand}"
+                    CornerRadius="12"
+                    BackgroundColor="{Binding ShowIngredients, Converter={StaticResource BoolToTabColorConverter}}"
+                    TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+            <Button Grid.Column="1"
+                    Text="Steps"
+                    Command="{Binding ShowStepsTabCommand}"
+                    CornerRadius="12"
+                    BackgroundColor="{Binding ShowIngredients, Converter={StaticResource BoolToTabColorConverter}, ConverterParameter=invert}"
+                    TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+        </Grid>
+
+        <ScrollView Grid.Row="3" Margin="20,12,20,8">
+            <VerticalStackLayout Spacing="12">
+                <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" />
+                <CollectionView ItemsSource="{Binding Recipe.Ingredients}"
+                                IsVisible="{Binding ShowIngredients}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Label Text="{Binding StringFormat='• {0}'}"
+                                   FontSize="16"
+                                   Margin="0,6"
+                                   TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Border IsVisible="{Binding ShowIngredients, Converter={StaticResource InvertedBoolConverter}}"
+                        Padding="16"
+                        StrokeShape="RoundRectangle 14"
+                        BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                        Stroke="{StaticResource Gray200}">
+                    <VerticalStackLayout Spacing="14">
+                        <Label Text="{Binding CurrentStepNumber, StringFormat='Step {0}'}"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Primary}" />
+                        <Label Text="{Binding CurrentStepText}"
+                               FontSize="18"
+                               LineBreakMode="WordWrap"
+                               TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                            <Button Text="Previous"
+                                    Command="{Binding PreviousStepCommand}"
+                                    BackgroundColor="{StaticResource Gray200}"
+                                    TextColor="{StaticResource PrimaryDarkText}" />
+                            <Button Grid.Column="1"
+                                    Text="Next"
+                                    Command="{Binding NextStepCommand}"
+                                    BackgroundColor="{StaticResource Secondary}"
+                                    TextColor="{StaticResource Primary}" />
+                        </Grid>
+                    </VerticalStackLayout>
+                </Border>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <Border Grid.Row="4"
+                Padding="16,12"
+                StrokeThickness="0"
+                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}">
+            <VerticalStackLayout Spacing="10">
+                <Grid ColumnDefinitions="*,*,*" ColumnSpacing="8">
+                    <Button Text="Read aloud"
+                            Command="{Binding ReadAloudCommand}"
+                            IsEnabled="{Binding IsSpeaking, Converter={StaticResource InvertedBoolConverter}}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White"
+                            FontSize="12" />
+                    <Button Grid.Column="1"
+                            Text="Stop"
+                            Command="{Binding StopSpeechCommand}"
+                            IsEnabled="{Binding IsSpeaking}"
+                            BackgroundColor="{StaticResource Gray600}"
+                            TextColor="White"
+                            FontSize="12" />
+                    <Button Grid.Column="2"
+                            Text="Capture"
+                            Command="{Binding CapturePhotoCommand}"
+                            BackgroundColor="{StaticResource Accent}"
+                            TextColor="White"
+                            FontSize="12" />
+                </Grid>
+                <Button Text="{Binding IsFavorite, Converter={StaticResource FavoriteTextConverter}}"
+                        Command="{Binding ToggleFavoriteCommand}"
+                        BackgroundColor="{Binding IsFavorite, Converter={StaticResource FavoriteBackgroundConverter}}"
+                        TextColor="{Binding IsFavorite, Converter={StaticResource FavoriteTextColorConverter}}" />
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

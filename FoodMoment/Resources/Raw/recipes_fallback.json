@@ -1,0 +1,46 @@
+{
+  "recipes": [
+    {
+      "id": 201,
+      "title": "Garlic Noodles",
+      "description": "Fallback bundle — quick noodles with garlic and soy sauce.",
+      "imageUrl": "tomato_eggs.jpg",
+      "category": "Chinese",
+      "ingredients": ["200g noodles", "4 garlic cloves", "2 tbsp soy sauce", "Scallions"],
+      "steps": [
+        "Boil noodles until tender, then drain.",
+        "Sauté minced garlic in oil until fragrant.",
+        "Toss noodles with soy sauce and serve with scallions."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 202,
+      "title": "Iced Lemon Tea",
+      "description": "Fallback bundle — chilled tea with fresh lemon.",
+      "imageUrl": "honey_lemon_tea.jpg",
+      "category": "Drinks",
+      "ingredients": ["2 tea bags", "1 lemon", "Ice", "Honey"],
+      "steps": [
+        "Steep tea and cool to room temperature.",
+        "Add lemon slices and ice to a glass.",
+        "Pour tea over ice and sweeten with honey."
+      ],
+      "isFavorite": false
+    },
+    {
+      "id": 203,
+      "title": "Berry Parfait",
+      "description": "Fallback bundle — layered yogurt and granola dessert.",
+      "imageUrl": "smoothie_bowl.jpg",
+      "category": "Dessert",
+      "ingredients": ["Greek yogurt", "Mixed berries", "Granola", "Honey"],
+      "steps": [
+        "Layer yogurt in a glass.",
+        "Add berries and granola.",
+        "Drizzle honey and serve chilled."
+      ],
+      "isFavorite": false
+    }
+  ]
+}

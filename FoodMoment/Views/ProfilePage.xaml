@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodMoment.ViewModels"
+             xmlns:models="clr-namespace:FoodMoment.Models"
+             x:Class="FoodMoment.Views.ProfilePage"
+             x:DataType="vm:ProfileViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <ScrollView Padding="20,16">
+        <VerticalStackLayout Spacing="20">
+
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 16"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{StaticResource Gray200}">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="Data &amp; recipes"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                    <Label Text="{Binding DataSourceStatus}"
+                           FontSize="12"
+                           LineBreakMode="WordWrap"
+                           TextColor="{StaticResource Gray500}" />
+                    <Label Text="Theme follows your system light/dark setting automatically."
+                           FontSize="12"
+                           TextColor="{StaticResource Gray500}" />
+                    <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" />
+                    <Button Text="Reload (JSON → API fallback)"
+                            Command="{Binding ReloadDataCommand}"
+                            BackgroundColor="{StaticResource Primary}"
+                            TextColor="White" />
+                    <Button Text="Manage recipes (CRUD)"
+                            Command="{Binding OpenManagePageCommand}"
+                            BackgroundColor="{StaticResource Secondary}"
+                            TextColor="{StaticResource Primary}" />
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 16"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{StaticResource Gray200}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Favorites"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                    <CollectionView ItemsSource="{Binding FavoriteRecipes}" HeightRequest="180">
+                        <CollectionView.EmptyView>
+                            <Label Text="No favorites yet"
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,24" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:Recipe">
+                                <Grid ColumnDefinitions="56,*" Padding="4,8" ColumnSpacing="12">
+                                    <Image Source="{Binding ImageUrl, Converter={StaticResource RecipeImageSourceConverter}}" Aspect="AspectFill" HeightRequest="48" WidthRequest="48" />
+                                    <Label Grid.Column="1"
+                                           Text="{Binding Title}"
+                                           VerticalOptions="Center"
+                                           FontSize="15"
+                                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Padding="16"
+                    StrokeShape="RoundRectangle 16"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                    Stroke="{StaticResource Gray200}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Cooking photos"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                    <CollectionView ItemsSource="{Binding CookRecords}" HeightRequest="200">
+                        <CollectionView.EmptyView>
+                            <Label Text="Capture a photo from any recipe detail page."
+                                   TextColor="{StaticResource Gray500}"
+                                   HorizontalTextAlignment="Center"
+                                   Margin="0,24" />
+                        </CollectionView.EmptyView>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:CookRecord">
+                                <Grid ColumnDefinitions="56,*" Padding="4,8" ColumnSpacing="12">
+                                    <Image Source="{Binding PhotoPath, Converter={StaticResource RecipeImageSourceConverter}}" Aspect="AspectFill" HeightRequest="48" WidthRequest="48" />
+                                    <VerticalStackLayout Grid.Column="1" VerticalOptions="Center" Spacing="2">
+                                        <Label Text="{Binding RecipeTitle}" FontSize="15" FontAttributes="Bold" />
+                                        <Label Text="{Binding CreatedAt, StringFormat='{0:yyyy-MM-dd HH:mm}'}"
+                                               FontSize="12"
+                                               TextColor="{StaticResource Gray500}" />
+                                    </VerticalStackLayout>
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

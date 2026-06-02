@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="FoodMoment.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="FoodMoment"
+    Shell.TabBarBackgroundColor="{AppThemeBinding Light=White, Dark={StaticResource Gray900}}"
+    Shell.TabBarTitleColor="{StaticResource Gray500}"
+    Shell.TabBarUnselectedColor="{StaticResource Gray400}"
+    Shell.TabBarForegroundColor="{StaticResource Primary}">
+
+    <TabBar>
+        <ShellContent x:Name="HomeTab" Title="Browse" Route="HomePage" />
+        <ShellContent x:Name="ExploreTab" Title="Explore" Route="ExplorePage" />
+        <ShellContent x:Name="ProfileTab" Title="Profile" Route="ProfilePage" />
+    </TabBar>
+
+</Shell>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodMoment.ViewModels"
+             xmlns:models="clr-namespace:FoodMoment.Models"
+             x:Class="FoodMoment.Views.HomePage"
+             x:DataType="vm:HomeViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="Auto,Auto,Auto,*" Padding="20,16,20,8" RowSpacing="12">
+
+        <VerticalStackLayout Grid.Row="0" Spacing="4">
+            <Label Text="FoodMoment"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+            <Label Text="Food &amp; drink recipes — meals and beverages"
+                   FontSize="14"
+                   TextColor="{StaticResource Gray500}" />
+        </VerticalStackLayout>
+
+        <SearchBar Grid.Row="1"
+                   Placeholder="Search recipes..."
+                   Text="{Binding SearchText}"
+                   BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                   PlaceholderColor="{StaticResource Gray400}" />
+
+        <CollectionView Grid.Row="2"
+                        ItemsSource="{Binding Categories}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedCategory}"
+                        HeightRequest="40">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="10" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="x:String">
+                    <Border Padding="16,8"
+                            StrokeShape="RoundRectangle 20"
+                            BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource Gray700}}"
+                            Stroke="{StaticResource Primary}"
+                            StrokeThickness="1">
+                        <Label Text="{Binding .}"
+                               FontSize="13"
+                               FontAttributes="Bold"
+                               TextColor="{AppThemeBinding Light={StaticResource Primary}, Dark=White}" />
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <RefreshView Grid.Row="3"
+                     IsRefreshing="{Binding IsRefreshing}"
+                     Command="{Binding RefreshCommand}">
+            <CollectionView ItemsSource="{Binding Recipes}"
+                            SelectionMode="None">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="12" Padding="24">
+                        <Label Text="No recipes yet"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Gray500}" />
+                        <Label Text="Pull down to refresh or add recipes from Profile."
+                               FontSize="13"
+                               HorizontalTextAlignment="Center"
+                               TextColor="{StaticResource Gray400}" />
+                        <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <Border Margin="0,0,0,14"
+                                Padding="0"
+                                StrokeShape="RoundRectangle 16"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                                Stroke="{StaticResource Gray200}"
+                                StrokeThickness="1">
+                            <Border.Shadow>
+                                <Shadow Brush="#40000000" Offset="0,4" Radius="12" Opacity="0.12" />
+                            </Border.Shadow>
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.RecipeSelectedCommand}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Grid ColumnDefinitions="116,*" RowDefinitions="Auto,Auto,Auto">
+                                <Border Grid.RowSpan="3"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 16,0,0,16"
+                                        BackgroundColor="{StaticResource Gray200}">
+                                    <Image Source="{Binding ImageUrl, Converter={StaticResource RecipeImageSourceConverter}}"
+                                           Aspect="AspectFill"
+                                           HeightRequest="116"
+                                           WidthRequest="116" />
+                                </Border>
+                                <Label Grid.Column="1"
+                                       Text="{Binding Title}"
+                                       FontSize="17"
+                                       FontAttributes="Bold"
+                                       Margin="14,14,40,4"
+                                       LineBreakMode="TailTruncation"
+                                       TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                                <Label Grid.Column="1"
+                                       Grid.RowSpan="3"
+                                       Text="♥"
+                                       FontSize="14"
+                                       TextColor="{StaticResource Primary}"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Start"
+                                       Margin="0,14,14,0"
+                                       IsVisible="{Binding IsFavorite, Converter={StaticResource FavoriteHeartVisibilityConverter}}" />
+                                <Label Grid.Column="1"
+                                       Grid.Row="1"
+                                       Text="{Binding Description}"
+                                       FontSize="13"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       Margin="14,0,14,6"
+                                       TextColor="{StaticResource Gray500}" />
+                                <Border Grid.Column="1"
+                                        Grid.Row="2"
+                                        Margin="14,0,14,14"
+                                        Padding="10,4"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        StrokeShape="RoundRectangle 8"
+                                        StrokeThickness="0">
+                                    <Label Text="{Binding Category}"
+                                           FontSize="11"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}" />
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

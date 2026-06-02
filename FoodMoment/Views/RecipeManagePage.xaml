@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:FoodMoment.ViewModels"
+             xmlns:models="clr-namespace:FoodMoment.Models"
+             x:Class="FoodMoment.Views.RecipeManagePage"
+             x:DataType="vm:RecipeManageViewModel"
+             Title="{Binding Title}"
+             BackgroundColor="{AppThemeBinding Light={StaticResource PageBackgroundLight}, Dark={StaticResource PageBackgroundDark}}">
+
+    <Grid RowDefinitions="Auto,*" Padding="20,16" RowSpacing="14">
+
+        <Button Grid.Row="0"
+                Text="+ Add new recipe"
+                Command="{Binding AddRecipeCommand}"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                CornerRadius="12" />
+
+        <RefreshView Grid.Row="1"
+                     Command="{Binding LoadRecipesCommand}">
+            <CollectionView ItemsSource="{Binding Recipes}">
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="8" Padding="24">
+                        <Label Text="No recipes"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               TextColor="{StaticResource Gray500}"
+                               HorizontalTextAlignment="Center" />
+                        <ActivityIndicator IsRunning="{Binding IsBusy}" Color="{StaticResource Primary}" />
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Recipe">
+                        <Border Margin="0,0,0,12"
+                                Padding="14"
+                                StrokeShape="RoundRectangle 14"
+                                BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
+                                Stroke="{StaticResource Gray200}">
+                            <Grid ColumnDefinitions="*,Auto,Auto" ColumnSpacing="8" RowDefinitions="Auto,Auto,Auto">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label Text="♥"
+                                           IsVisible="{Binding IsFavorite, Converter={StaticResource FavoriteHeartVisibilityConverter}}"
+                                           VerticalOptions="Center"
+                                           TextColor="{StaticResource Primary}" />
+                                    <Label Text="{Binding Title}"
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"
+                                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                                </HorizontalStackLayout>
+                                <Label Grid.Row="1"
+                                       Grid.ColumnSpan="3"
+                                       Text="{Binding Category}"
+                                       FontSize="12"
+                                       TextColor="{StaticResource Primary}" />
+                                <Label Grid.Row="2"
+                                       Grid.ColumnSpan="3"
+                                       Text="{Binding Description}"
+                                       FontSize="13"
+                                       LineBreakMode="TailTruncation"
+                                       MaxLines="2"
+                                       TextColor="{StaticResource Gray500}" />
+                                <Button Grid.Column="1"
+                                        Grid.RowSpan="3"
+                                        Text="Edit"
+                                        VerticalOptions="Center"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.EditRecipeCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource Secondary}"
+                                        TextColor="{StaticResource Primary}"
+                                        Padding="14,8"
+                                        FontSize="12" />
+                                <Button Grid.Column="2"
+                                        Grid.RowSpan="3"
+                                        Text="Delete"
+                                        VerticalOptions="Center"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}}, Path=BindingContext.DeleteRecipeCommand}"
+                                        CommandParameter="{Binding .}"
+                                        BackgroundColor="{StaticResource DangerSurface}"
+                                        TextColor="{StaticResource Danger}"
+                                        Padding="14,8"
+                                        FontSize="12" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </Grid>
+</ContentPage>

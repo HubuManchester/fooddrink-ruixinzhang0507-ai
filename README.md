@@ -69,11 +69,15 @@ FoodMoment/
 
 ## Run
 
-```bash
-cd FoodMoment
+**Important:** Open `FoodMoment.sln` (not an old `FoodDrinkApp.sln`). In Visual Studio, set the startup dropdown to **Windows Machine** — not Android emulator. If the profile is **Pixel 7 / Android** and the emulator is off, the app will look like it “won’t open”.
+
+```powershell
+cd c:\Users\Administrator\Desktop\FoodTime\FoodMoment
 dotnet build -f net9.0-windows10.0.19041.0
 dotnet build -t:Run -f net9.0-windows10.0.19041.0
 ```
+
+Build output is redirected to `C:\MauiBuild\FoodMoment\` (see `Directory.Build.props`).
 
 Pre-demo verification:
 

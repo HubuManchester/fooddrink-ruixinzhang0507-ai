@@ -1,105 +1,109 @@
 # FoodMoment
 
-A **food & drink** companion app built with **.NET MAUI** (.NET 9). Browse meals and beverages, manage recipes locally, and demo required device features (TTS, camera, GPS).
+A **food and drink** companion app built with **.NET MAUI** (.NET 9). Browse recipes offline, manage your own entries in SQLite, and demonstrate mobile hardware features (TTS, camera, GPS, haptics).
+
+**Author:** Ruixin Zhang  
+**Repository:** [HubuManchester/fooddrink-ruixinzhang0507-ai](https://github.com/HubuManchester/fooddrink-ruixinzhang0507-ai)
 
 ## Tech stack
 
-| Layer | Choice |
-|--------|--------|
-| UI | .NET MAUI (XAML), Shell `TabBar` + routes |
+| Layer | Technology |
+|--------|------------|
+| UI | .NET MAUI (XAML), Shell `TabBar` and navigation routes |
 | Pattern | MVVM (CommunityToolkit.Mvvm) |
-| Local DB | SQLite (`sqlite-net-pcl`) |
-| Embedded data | `Resources/Raw/recipes.json` + `recipes_fallback.json` |
-| Platforms | Windows + Android |
+| Database | SQLite (`sqlite-net-pcl`) |
+| Seed data | `Resources/Raw/recipes.json` + `recipes_fallback.json` |
+| Platforms | **Windows** and **Android** |
 
-## Data loading (dual insurance — local static only)
+## Features
 
-`RecipeDataLoaderService` implements the required try/catch chain **without mockapi.io**:
+| Area | Capability |
+|------|------------|
+| Browse | 14 bundled recipes, search, category filter, pull-to-refresh |
+| Detail | Ingredients / steps, nutrition panel, favorites |
+| Hardware | Text-to-speech (read step + stop), camera capture, GPS coordinates, haptic feedback |
+| Data | JSON → fallback JSON → hardcoded catalog; SQLite merge on launch |
+| Profile | Theme (Light / Dark / System), reload data, cook history, recipe CRUD |
+| Images | Local JPG assets under `Resources/Images/` (no network required for list thumbnails) |
 
-1. **Try** embedded `recipes.json` (`EmbeddedRecipeDataService`)
-2. **Catch** → embedded `recipes_fallback.json` (`LocalFallbackRecipeDataService`)
-3. **Catch** → built-in list (`StaticRecipeCatalog`)
+## Data loading
 
-Asset names are in **`DataConfig.cs`**. Used on first launch and when pulling to refresh / **Reload** on Profile.
+`RecipeDataLoaderService` uses a try/catch fallback chain (no remote API):
 
-## Images
+1. Embedded `recipes.json`
+2. Embedded `recipes_fallback.json`
+3. `StaticRecipeCatalog` (built-in list)
 
-All seed recipes use **bundled JPG files** under `Resources/Images/` (offline-friendly for demo video). Empty image URL on add-recipe defaults to `default_recipe.jpg`.
-
-## Theme
-
-`App.UserAppTheme = AppTheme.Unspecified` — the app **follows the system** light/dark mode. Pages use `{AppThemeBinding}` in XAML. There is no manual theme picker.
-
-## Feature checklist (assignment)
-
-| Category | Feature | Status |
-|----------|---------|--------|
-| Hardware | Text-to-speech (read step aloud) | ✅ |
-| Hardware | Stop speech button | ✅ |
-| Hardware | Camera capture + image on detail page | ✅ |
-| Hardware | GPS latitude / longitude display | ✅ |
-| Data | Embedded JSON first | ✅ |
-| Data | Local static fallback (second JSON + hardcoded) | ✅ |
-| Data | SQLite persistence + CRUD | ✅ |
-| UI | System light/dark via `AppThemeBinding` | ✅ |
-| UI | Recipe list + detail | ✅ |
-| UI | Search | ✅ |
-| UI | Category filter (incl. **Drinks**, Dessert) | ✅ |
-| UI | Pull-to-refresh (`RefreshView`) | ✅ |
-| UX | `ActivityIndicator` while loading | ✅ |
-| UX | Haptic feedback (favorite / photo / location) | ✅ |
+Configuration: `DataConfig.cs`. Reload from **Profile → Reload data** to see the active source (`EmbeddedJson`, `LocalStaticJson`, or `HardcodedFallback`).
 
 ## Project structure
 
 ```
 FoodMoment/
-├── DataConfig.cs                    # Primary / fallback asset names
-├── Resources/Raw/recipes.json       # Primary seed data
-├── Resources/Raw/recipes_fallback.json
-├── Resources/Images/*.jpg           # Offline recipe thumbnails
+├── DataConfig.cs
+├── Resources/
+│   ├── Raw/recipes.json
+│   ├── Raw/recipes_fallback.json
+│   └── Images/*.jpg
 ├── Services/
-│   ├── EmbeddedRecipeDataService.cs
-│   ├── LocalFallbackRecipeDataService.cs
 │   ├── RecipeDataLoaderService.cs
-│   ├── StaticRecipeCatalog.cs
-│   └── RecipeRepository.cs
-├── Views/ / ViewModels/
+│   ├── RecipeRepository.cs
+│   ├── CameraPhotoService.cs
+│   └── ThemePreferenceService.cs
+├── ViewModels/
+├── Views/
 └── AppShell.xaml
 ```
 
-## Run
+## Build and run
 
-**Important:** Open `FoodMoment.sln` (not an old `FoodDrinkApp.sln`). In Visual Studio, set the startup dropdown to **Windows Machine** — not Android emulator. If the profile is **Pixel 7 / Android** and the emulator is off, the app will look like it “won’t open”.
+Open **`FoodMoment.sln`** in Visual Studio. Set the startup profile to **Windows Machine** (not Android emulator unless you intend to test on Android).
 
 ```powershell
-cd c:\Users\Administrator\Desktop\FoodTime\FoodMoment
+cd FoodMoment
 dotnet build -f net9.0-windows10.0.19041.0
 dotnet build -t:Run -f net9.0-windows10.0.19041.0
 ```
 
-Build output is redirected to `C:\MauiBuild\FoodMoment\` (see `Directory.Build.props`).
+Build output may be redirected to `C:\MauiBuild\FoodMoment\` (see `Directory.Build.props` in the repo root).
 
-Pre-demo verification:
+### Pre-demo check
+
+From the repository root:
 
 ```powershell
 .\scripts\verify-demo.ps1
 ```
 
-See **`docs/DEMO_VERIFICATION.md`** for manual TTS / camera / GPS checks.
+Manual hardware checks: see `docs/DEMO_VERIFICATION.md`.
 
-## Video demo tips
+## Video demo (suggested flow)
 
-- Toggle **Windows dark mode** → app colors update automatically  
-- **Profile → Reload** → shows whether data came from `EmbeddedJson`, `LocalStaticJson`, or `HardcodedFallback`  
-- **Detail** → Read aloud / **Stop** / Capture (photo appears above tabs)  
-- **Explore** → Get GPS location (latitude & longitude labels)  
-- Full CRUD via Profile → Manage recipes  
-- List images work **without network**
+1. **Home** — scroll recipes (offline thumbnails), search, filter by category, toggle favorite.
+2. **Detail** — **Read aloud** / **Stop**, **Capture** (photo appears on the page), view nutrition.
+3. **Explore** — **Get GPS** (allow location); latitude and longitude update.
+4. **Profile** — switch theme, **Reload data**, open **Manage recipes** for CRUD.
+5. Optionally show **Android** or **Windows** dark mode.
+
+## Hardware used in this app
+
+| # | Feature | Where to demo |
+|---|---------|----------------|
+| 1 | Text-to-speech | Recipe detail → Read aloud / Stop |
+| 2 | Camera | Recipe detail → Capture |
+| 3 | GPS / geolocation | Explore → Get GPS |
+| 4 | Haptic feedback | Favorite, capture success, location update |
+
+Cooking photos are stored under `FileSystem.AppDataDirectory/records/`.
 
 ## Not implemented
 
-- Live map control (coordinates shown as text; GPS labels only)  
-- mockapi.io / remote REST (replaced by local JSON fallback chain)  
-- Real backend / user accounts / cloud sync  
-- Gallery photo pick, offline URL cache, unit/UI tests, shake gesture, manual theme toggle  
-- iOS target framework  
+- Interactive map (GPS shown as text only)
+- Shake / accelerometer
+- Remote REST API (mockapi.io replaced by local JSON chain)
+- iOS target
+- Automated unit/UI tests
+
+## License
+
+Academic coursework submission — University of Manchester (HubuManchester classroom repository).

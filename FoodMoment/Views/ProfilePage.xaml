@@ -80,10 +80,21 @@
                     BackgroundColor="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}"
                     Stroke="{StaticResource Gray200}">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Cooking photos"
-                           FontSize="18"
-                           FontAttributes="Bold"
-                           TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                    <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                        <Label Text="Cooking photos"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               VerticalOptions="Center"
+                               TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                        <Button Grid.Column="1"
+                                Text="Clear"
+                                Command="{Binding ClearCookingPhotosCommand}"
+                                FontSize="13"
+                                Padding="12,6"
+                                MinimumHeightRequest="36"
+                                BackgroundColor="{StaticResource Gray200}"
+                                TextColor="{AppThemeBinding Light={StaticResource PrimaryDarkText}, Dark=White}" />
+                    </Grid>
                     <CollectionView ItemsSource="{Binding CookRecords}" HeightRequest="200">
                         <CollectionView.EmptyView>
                             <Label Text="Capture a photo from any recipe detail page."

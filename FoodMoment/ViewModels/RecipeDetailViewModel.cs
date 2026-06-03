@@ -55,6 +55,9 @@ public partial class RecipeDetailViewModel : BaseViewModel
         IsBusy = true;
         try
         {
+            LastCapturedPhotoPath = null;
+            HasCapturedPhoto = false;
+
             Recipe = await _repository.GetByIdAsync(RecipeId);
             if (Recipe is not null)
             {

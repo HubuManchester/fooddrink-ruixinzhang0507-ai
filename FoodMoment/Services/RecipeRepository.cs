@@ -20,6 +20,7 @@ public interface IRecipeRepository
     Task DeleteAsync(int id);
     Task AddCookRecordAsync(int recipeId, string recipeTitle, string photoPath);
     Task<List<CookRecord>> GetCookRecordsAsync();
+    Task ClearCookRecordsAsync();
 }
 
 public class RecipeRepository : IRecipeRepository
@@ -194,6 +195,41 @@ public class RecipeRepository : IRecipeRepository
             PhotoPath = r.PhotoPath,
             CreatedAt = r.CreatedAt
         }).ToList();
+    }
+
+    public async Task ClearCookRecordsAsync()
+    {
+        var records = await _database.GetCookRecordsAsync();
+        await _database.DeleteAllCookRecordsAsync();
+
+        var recordsDir = Path.Combine(FileSystem.AppDataDirectory, "records");
+        if (!Directory.Exists(recordsDir))
+            return;
+
+        foreach (var record in records)
+        {
+            if (!string.IsNullOrWhiteSpace(record.PhotoPath) && File.Exists(record.PhotoPath))
+            {
+                try
+                {
+                    File.Delete(record.PhotoPath);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        foreach (var file in Directory.EnumerateFiles(recordsDir))
+        {
+            try
+            {
+                File.Delete(file);
+            }
+            catch
+            {
+            }
+        }
     }
 
     private static Recipe ToModel(RecipeEntity entity) => new()

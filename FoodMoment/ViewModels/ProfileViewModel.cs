@@ -72,6 +72,30 @@ public partial class ProfileViewModel : BaseViewModel
     private async Task OpenManagePageAsync() =>
         await Shell.Current.GoToAsync("RecipeManagePage");
 
+    [RelayCommand]
+    private async Task ClearCookingPhotosAsync()
+    {
+        var page = Shell.Current?.CurrentPage;
+        if (page is null)
+            return;
+
+        var confirm = await page.DisplayAlert(
+            "Clear cooking photos",
+            "Delete all captured dish photos and cooking history? This cannot be undone.",
+            "Clear",
+            "Cancel");
+
+        if (!confirm)
+            return;
+
+        IsBusy = true;
+        await _repository.ClearCookRecordsAsync();
+        CookRecords.Clear();
+        IsBusy = false;
+
+        await Toast("Cooking photos and history cleared.");
+    }
+
     private void UpdateDataSourceStatus()
     {
         var source = _repository.LastLoadSource?.ToString() ?? "SQLite cache";

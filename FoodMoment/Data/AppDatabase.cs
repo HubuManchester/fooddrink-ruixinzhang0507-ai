@@ -65,4 +65,7 @@ public class AppDatabase
 
     public async Task DeleteCookRecordAsync(int id) =>
         await _connection.DeleteAsync<CookRecordEntity>(id);
+
+    public async Task DeleteAllCookRecordsAsync() =>
+        await _connection.DeleteAllAsync<CookRecordEntity>();
 }
